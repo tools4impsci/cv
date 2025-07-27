@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cara Maria Antonaccio, PhD, MSPH - CV</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        html { 
+            font-size: 95%; /* Scales down the entire application */
+        }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            scroll-behavior: smooth; 
+        }
+        :root {
+            --brown-dark: #4E3629; --brown-light: #7A5C4F; --red-cardinal: #C00404;
+            --gold-light: #FFC72C; --yellow-bright: #FFD700; --off-white: #F7F6F1; --gray-text: #555;
+        }
+        .bg-brown-dark { background-color: var(--brown-dark); } .bg-red-cardinal { background-color: var(--red-cardinal); }
+        .text-brown-dark { color: var(--brown-dark); } .text-red-cardinal { color: var(--red-cardinal); }
+        .border-red-cardinal { border-color: var(--red-cardinal); } .hover-text-gold-light:hover { color: var(--gold-light); }
+        
+        .nav-link { transition: all 0.3s ease; cursor: pointer; padding: 0.5rem 0; border-bottom: 2px solid transparent; }
+        .nav-link.active { border-bottom-color: var(--gold-light); color: var(--gold-light); }
+        
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .hidden { display: none; }
+
+        .accordion-header {
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border-radius: 0.5rem; /* rounded-lg */
+        }
+        .accordion-item.open .accordion-header {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        .accordion-header:hover {
+            background-color: #f3f4f6; /* gray-100 */
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            padding: 0 1.5rem;
+        }
+        .accordion-item.open .accordion-content {
+            max-height: 2000px; /* Adjust as needed */
+            padding: 1.5rem 1.5rem;
+        }
+        .accordion-caret {
+            transition: transform 0.3s ease;
+        }
+        .accordion-item.open .accordion-caret {
+            transform: rotate(90deg);
+        }
+
+        .publication-item .authors { color: var(--brown-dark); }
+        .publication-item .journal { font-style: italic; color: var(--gray-text); }
+        .publication-item .title { font-weight: 600; }
+
+        .filter-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        .filter-btn.active {
+            background-color: var(--red-cardinal);
+            color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-off-white text-gray-text">
+
+    <header class="bg-brown-dark shadow-md sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
+            <div>
+                <a class="text-2xl font-bold text-white hover-text-gold-light" href="#" onclick="showPage('about')">Cara M. Antonaccio</a>
+            </div>
+            <ul id="nav-links" class="flex items-center space-x-2 sm:space-x-6">
+                <li><a class="nav-link text-white hover-text-gold-light font-medium" onclick="showPage('about')">About</a></li>
+                <li><a class="nav-link text-white hover-text-gold-light font-medium" onclick="showPage('experience')">Experience</a></li>
+                <li><a class="nav-link text-white hover-text-gold-light font-medium" onclick="showPage('research')">Research</a></li>
+                <li><a class="nav-link text-white hover-text-gold-light font-medium" onclick="showPage('teaching')">Teaching</a></li>
+                <li><a class="nav-link text-white hover-text-gold-light font-medium" onclick="showPage('training-skills')">Training & Skills</a></li>
+                <li><a class="nav-link text-white hover-text-gold-light font-medium" onclick="showPage('service')">Service & Awards</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="app" class="max-w-7xl mx-auto p-4 sm:p-6 md:p-12">
+        <div id="about" class="hidden fade-in"></div>
+        <div id="experience" class="hidden fade-in"></div>
+        <div id="research" class="hidden fade-in"></div>
+        <div id="teaching" class="hidden fade-in"></div>
+        <div id="training-skills" class="hidden fade-in"></div>
+        <div id="service" class="hidden fade-in"></div>
+    </main>
+    
+    <footer class="bg-brown-dark text-white mt-12">
+        <div class="max-w-7xl mx-auto p-6 text-center text-sm">
+            <p>&copy; 2024 Cara Maria Antonaccio, PhD, MSPH</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- DATA & STATE MANAGEMENT ---
+        let researchFilters = {
+            type: 'all',
+            topic: 'all'
+        };
+
+        const cvData = {
+            personal: {
+                name: "Cara Maria Antonaccio, PhD, MSPH",
+                email: "antonaccio@brown.edu",
+                phone: "+1 908 966 2321",
+                website: "caraantonacc.io",
+                summary: "Highly motivated implementation scientist and methodologist with a PhD in Social Work (Boston College), an MSPH in Population, Family, and Reproductive Health (Johns Hopkins), and dual degrees in Health Policy and African Studies (Pennsylvania State University). Expertise in designing, implementing, and evaluating evidence-based interventions for vulnerable child and adolescent populations in resource-constrained and conflict-affected settings, broadly, and Sub-Saharan Africa, specifically. Driven by lived experience as a two-time childhood cancer survivor and committed to advancing global child health equity. Demonstrated ability to lead complex, interdisciplinary research projects developing and employing implementation science frameworks (e.g., EPIS), human-centered design (HCD), mHealth technologies, advanced mixed methodologies (including spatial epidemiology, multilevel modeling, Bayesian methods), and community-engaged approaches. Skilled at securing competitive funding, publishing in high-impact journals, and fostering cross-cultural collaborations. Seeking to leverage extensive global health research experience and passion for health equity to establish a leading implementation science research program for global mental health and child health equity.",
+                researchProgram: "My research program operates at the intersection of global mental health, health and human security, implementation science, and computational epidemiology. I leverage advanced mixed-methodologies, human-centered design, and community-engaged approaches to design, implement, and evaluate evidence-based interventions for vulnerable children and adolescents in resource-constrained and conflict-affected settings."
+            },
+            education: [
+                {
+                    degree: "Doctor of Philosophy (PhD) in Social Work",
+                    institution: "Boston College School of Social Work, Chestnut Hill, MA",
+                    details: [
+                        '<strong>Dissertation:</strong> "Examining the conflict-related predictors and spatiotemporal dynamics of attacks against humanitarian assistance: An algorithmic modeling approach"',
+                        "<strong>Focus Areas:</strong> Implementation science, Global mental health, Mixed methods, Advanced statistical learning (spatial epidemiology, multilevel modeling), Humanitarian assistance, Conflict studies"
+                    ]
+                },
+                {
+                    degree: "Master of Science in Public Health (MSPH)",
+                    institution: "Johns Hopkins University Bloomberg School of Public Health, Baltimore, MD",
+                    details: [
+                        "<strong>Concentration:</strong> Maternal and child health epidemiology",
+                        "<strong>Focus Areas:</strong> Child health epidemiology, Global mental health, Biostatistics, Epidemiology, Implementation research (stepped mental health care model in Uganda)"
+                    ]
+                },
+                {
+                    degree: "Bachelor of Arts (BA) in African Studies",
+                    institution: "Pennsylvania State University, University Park, PA",
+                    details: [
+                        '<strong>Thesis:</strong> "Examining the sociodemographic and public health effects of conflict-related sexual violence in DRC"',
+                        "<strong>Focus Areas:</strong> African International Relations, Conflict and health"
+                    ]
+                },
+                {
+                    degree: "Bachelor of Science (BS) in Health Policy & Administration",
+                    institution: "Pennsylvania State University, University Park, PA",
+                    details: [
+                        "<strong>Focus Areas:</strong> Biobehavioral health, Stress, health, and daily experiences, Global health"
+                    ]
+                }
+            ],
+            specializedTraining: [
+                {
+                    area: "Implementation Science & Methods",
+                    institutions: "Brown University Department of Psychiatry and Human Behavior, others",
+                    details: ["Brown Research on Impl. and Dissemination to Guide Evidence Use (BRIDGE) Program", "Boston College Research Program on Children and Adversity (RPCA)", "Johns Hopkins Center for Global Health (JHCGH)", "Olin College of Engineering"]
+                },
+                {
+                    area: "Mixed Methods in Applied Global Mental Health Research",
+                    institutions: "Boston College, Johns Hopkins SPH",
+                    details: ["Applied Methods in Global Mental Health", "Mixed Methods Research", "Community Engaged Partnership Research"]
+                },
+                {
+                    area: "Advanced Statistical Learning and Quantitative Methods",
+                    institutions: "Boston College Lynch School of Education, Johns Hopkins SPH",
+                    details: ["Multilevel Regression Modeling", "Structural Equation Modeling", "Psychometric Theory", "Biostatistical Methods I-III", "Epidemiological Inference", "Assessing the Epidemiologic Impact of Human Rights Violations", "Child Health Epidemiology", "Reproductive and Perinatal Epidemiology"]
+                },
+                {
+                    area: "Maternal & Child Health in Resource-Limited Settings",
+                    institutions: "Muhimbili University of Health & Allied Science, Tanzania",
+                    details: ["Mental health nursing", "Midwifery"]
+                },
+                {
+                    area: "Other Relevant Training",
+                    institutions: "Boston College Law School, International Red Cross & Red Crescent Societies",
+                    details: ["International Law", "First Aid for Severe Trauma (FAST Certified)"]
+                }
+            ],
+            experience: [
+                {
+                    title: "Implementation Science Fellow",
+                    duration: "2023-present",
+                    organization: "Brown Research on Implementation & Dissemination to Guide Evidence Use (BRIDGE) Program",
+                    location: "Providence, RI",
+                    description: "My research agenda lies at the intersection of global mental health, health and human security, implementation science, and computational epidemiology. Leading an innovative project developing an Integrated Implementation Planning Environment (IIPE) to facilitate a streamlined implementation research planning and evaluation process for both expert researchers and non-expert implementation teams."
+                },
+                {
+                    title: "Postdoctoral Research Associate",
+                    duration: "2023-present",
+                    organization: "Brown University Warren Alpert Medical School",
+                    location: "Providence, RI",
+                    description: "Conducting a Hybrid Type 3 implementation study evaluating mobile-based vs. standard supervision for teachers delivering a school-based mental health intervention in Sierra Leone (NIMH R01MH130320). Leading data management, development and application of implementation science frameworks/methods (including the novel BELIEF framework), community engagement, mixed-methods analysis, and manuscript preparation. Evaluating implementation outcomes (feasibility, acceptability, fidelity) and effectiveness outcomes (mental health, emotion regulation). Submitted NIMH K99/R00 (Feb '25) focused on the co-design of a tailored just-in-time adaptive intervention for promoting emotional regulation and stress management skills among early adolescents in Sierra Leone."
+                },
+                {
+                    title: "Researcher",
+                    duration: "2022-23",
+                    organization: "United Nations University International Institute for Computing & Society (UNU-CS)",
+                    location: "Macao SAR, China",
+                    description: "Led primary research (surveys, qualitative methods) on health and human security for UN Women’s Peace and Security Programme. Directed the Humanitarian Early Warning (HEW) project, investigating aid worker security risks using spatial analysis and qualitative methods to inform participatory development of sociotechnical tools. Led major grant submission to the UN Trust Fund for Human Security. Facilitated participatory agent-based modeling workshop for health system strengthening in Vietnam. Served as GIS focal point and member of the UNU Internal Review Board (focus on ethics in conflict settings)."
+                },
+                {
+                    title: "Doctoral Researcher",
+                    duration: "2018-22",
+                    organization: "Research Program on Children & Adversity, Boston College",
+                    location: "Chestnut Hill, MA",
+                    description: "Conducted mixed methods research on long-term health, functioning, stigma, and social reintegration among former child soldiers in Sierra Leone. Led longitudinal research using multilevel modeling to identify predictors of stigma towards Ebola Virus Disease (EVD) survivors in Sierra Leone. Supported dissemination activities for NIMH U19 YouthFORWARD study focused on youth mental health and workforce development in Sierra Leone."
+                }
+            ],
+            consultancies: [
+                { organization: "Save the Children", description: "Systematic review of Mental Health and Psychosocial Support (MHPSS) for Children Associated with Armed Forces and Groups (CAAFAG), contributing to global Operational Guidance on MHPSS in CAAFAG." },
+                { organization: "Managing Exits from Armed Conflict Program", description: "Critical review of participatory research template for supporting CAAFAG reintegration in the Central African Republic (CAR)." },
+                { organization: "Johns Hopkins Dept. of Mental Health", description: "Systematic review informing means of verification (MOV) for the Inter-Agency Standing Committee (IASC) Common M&E Framework for MHPSS in Emergency Settings." },
+                { organization: "Watchlist on Children and Armed Conflict", description: "Quantitative research for 2018 field report published by Watchlist on Children and Armed Conflict on widespread violence against civilians health care actors in South Sudan." },
+                { organization: "HealthRight International", description: "Implementation research in conflict-affected Northern and Eastern Uganda supporting the delivery of interpersonal group-based cognitive behavioral therapy delivered via a stepped care model for pregnant women and new mothers. Funded by grant from the Johns Hopkins Center for Global Health." },
+                { organization: "World Health Organisation Global Early Adolescent Study (GEAS)", description: "Desk review on gender socialization and adolescent health risks in Malawi and Indonesia." }
+            ],
+            publications: {
+                peerReviewed: [
+                    { type: 'peerReviewed', authors: "Antonaccio, C. M., Preston, J., Rutirasiri, C., Bhattacharya, S., Moigua, M., Feika, M., Desrosiers, A.", year: "2025", title: "Applying user-centered design to enhance the usability and acceptability of an mHealth supervision tool for community health workers delivering an evidence-based intervention in rural Sierra Leone.", journal: "Global Mental Health.", topics: ["Implementation Science", "mHealth", "Global Mental Health", "Human-Centered Design"] },
+                    { type: 'peerReviewed', authors: "Arnold, T., Giorlando, K. K., ... Antonaccio, C. M., ... Brown, L. K.", year: "2025", title: "A Pilot Randomized Controlled Trial of an Acceptance Based PrEP Intervention to Engage Young Black MSM in the South: A Protocol Paper.", journal: "Journal of Medical Internet Research.", topics: ["Child & Adolescent Health", "mHealth"] },
+                    { type: 'peerReviewed', authors: "Desrosiers, A., Saran, I., Albanese, A. M., Antonaccio, C. M., Neville, S. E., Esliker, R., ... & Betancourt, T. S.", year: "2024", title: "Task-sharing to promote caregiver mental health, positive parenting practices, and violence prevention in vulnerable families in Sierra Leone: a pilot feasibility study.", journal: "BMC Psychiatry, 24(1), 787.", topics: ["Global Mental Health", "Child & Adolescent Health", "Implementation Science"] },
+                    { type: 'peerReviewed', authors: "Antonaccio, C. M., Pham, P., Vinck, P., Brennan, R. T., Collet, K., & Betancourt, T. S.", year: "2021", title: "Fear, Distress, and Perceived Risk Shape Stigma Toward Ebola Survivors: A Prospective Longitudinal Study in Sierra Leone.", journal: "BMC Public Health, 21, 1-10.", topics: ["Conflict & Health", "Global Mental Health", "Quantitative Methods"] },
+                    { type: 'peerReviewed', authors: "Antonaccio, C. M.", year: "2020", title: "On trauma, resilience, and survival: Lessons from fifteen years of pediatric cancer and remission.", journal: "JAMA Oncology, 6(12), 1866-1867.", topics: ["Child & Adolescent Health", "Cancer Survivorship"] },
+                    { type: 'peerReviewed', authors: "Betancourt, T. S., Thomson, D. L., Brennan, R. T., Antonaccio, C. M., Gilman, S. E., & VanderWeele, T. J.", year: "2020", title: "Stigma and acceptance of Sierra Leone's child soldiers: a prospective longitudinal study of adult mental health and social functioning.", journal: "Journal of the American Academy of Child & Adolescent Psychiatry, 59(6), 715-726.", topics: ["Conflict & Health", "Global Mental Health", "Child & Adolescent Health"] },
+                    { type: 'peerReviewed', authors: "Barnhart, D. A., Farrar, J., Murray, S. M., Brennan, R. T., Antonaccio, C. M., Sezibera, V., ... & Kamurase, A.", year: "2020", title: "Lay-worker Delivered Home Visiting Promotes Early Childhood Development and Reduces Violence in Rwanda: A Randomized Pilot.", journal: "Journal of Child and Family Studies, 1-14.", topics: ["Child & Adolescent Health", "Global Mental Health"] },
+                    { type: 'peerReviewed', authors: "Betancourt, T.S., Hansen, N., ... Antonaccio, C. M., ... & Brennan, R. T.", year: "2020", title: "Youth Functioning & Organizational Success for West African Regional Development (Youth FORWARD): Study Protocol.", journal: "Psychiatric Services, 72(5), 563-570.", topics: ["Implementation Science", "Child & Adolescent Health", "Global Mental Health"] },
+                    { type: 'peerReviewed', authors: "Frounfelker, R., ... Antonaccio, C. M., ... & Betancourt, T. S.", year: "2020", title: "Living through war: Mental health of children and youth in conflict-affected areas.", journal: "International Review of the Red Cross, 101(911), 481-506.", topics: ["Conflict & Health", "Global Mental Health", "Child & Adolescent Health"] }
+                ],
+                reportsAndBriefs: [
+                    { type: 'report', authors: "Stuart, J., Antonaccio, C. M., Yang, M., Thinyane, M., Demolis, G., Hakkanson, A.", year: "2023", title: "Cybersecurity Threats, Vulnerabilities and Resilience Among Women Human Rights Defenders and Civil Society in South-East Asia.", journal: "UN Women Research Report.", topics: ["Conflict & Health", "Human Security"] },
+                    { type: 'report', authors: "Zrwaly, M., Akello, G., ... Antonaccio, C. M., ... Williams, T.", year: "2022", title: "Mental Health and Psychosocial Support in Children Associated with Armed Groups and Armed Forces (CAAFAG) Programmes: Operational Guidance.", journal: "UNICEF, New York.", topics: ["Global Mental Health", "Child & Adolescent Health", "Conflict & Health"], link: "https://alliancecpha.org/sites/default/files/technical/attachments/Operational-Guidance-MHPSS-in-CAAFAG.pdf" },
+                    { type: 'report', authors: "Watchlist on Children and Armed Conflict", year: "2018", title: "Everyone and Everything is a Target: The Impact on Children of Attacks on Health Care and Denial of Humanitarian Access in South Sudan", journal: "Field Report. (Contribution as quantitative researcher).", topics: ["Conflict & Health", "Human Security", "Quantitative Methods"], link: "https://watchlist.org/wp-content/uploads/watchlist-field_report-southsudan-web.pdf" },
+                    { type: 'report', authors: "Inter-Agency Standing Committee (IASC)", year: "2018", title: "IASC Common Monitoring and Evaluation Framework for Mental Health and Psychosocial Support in Emergency Settings.", journal: "IASC Reference Group Publication. (Contribution via systematic review).", topics: ["Global Mental Health", "Human Security", "Implementation Science"] }
+                ],
+                underReview: [
+                    { type: 'underReview', authors: "Duque, M., Antonaccio, C. M., ... Salas-Wright, C.", title: "Typologies of Climate-Related Trauma Exposure: A Person-Centered Approach.", journal: "Social Psychiatry and Psychiatric Epidemiology (Under review).", topics: ["Quantitative Methods", "Global Mental Health"] },
+                    { type: 'underReview', authors: "Antonaccio, C. M., Neville, S. E., Mannix, M., Desrosiers, A.", title: "Is ‘Ringing the Bell’ An Evidence-Based Practice in Cancer Care? A Scoping Review.", journal: "Journal of Cancer Survivorship (Under review).", topics: ["Cancer Survivorship", "Implementation Science"] },
+                    { type: 'underReview', authors: "Rao, S. ... Antonaccio, C.M., & Kumar, P.", title: "Fuel Use Patterns and Preferences in a “Smokeless Village”: A Convergent Mixed-Methods Study in Southern India.", journal: "Environmental Research Communications (Under revision).", topics: ["Global Health"] }
+                ],
+                inPreparation: [
+                    { type: 'inPreparation', authors: "Antonaccio, C. M., Littlewood, A., Liu, D., Desrosiers, A., Henderson, E. A.", title: "Spatial epidemiology of attacks against health care in Eastern DRC from 2016 to 2025: A Bayesian approach.", target: "Journal of Conflict Studies.", topics: ["Conflict & Health", "Quantitative Methods", "Human Security"] },
+                    { type: 'inPreparation', authors: "Antonaccio, C. M. & Martinez, R.", title: "The Belief Evidence Learning Integrated Emergence Framework (BELIEF): A toolkit for fostering adaptive implementation.", target: "Global Implementation Research Applications.", topics: ["Implementation Science"] },
+                    { type: 'inPreparation', authors: "Antonaccio, C. M., Littlewood, A., Liu, D., Desrosiers, A., Henderson, E. A.", title: "Characterizing the spatiotemporal diffusion dynamics of conflict-related sexual violence in Eastern DRC from 2018-2023.", target: "Journal of Peace Research.", topics: ["Conflict & Health", "Quantitative Methods", "Human Security"] }
+                ]
+            },
+            presentations: [
+                { title: "Strategic Synergy for Aid Worker Security: Examining the Diffusion Dynamics of Violence Against Aid Workers Using a Multidimensional Density-Based Spatiotemporal Clustering Algorithm (MDST-DBSCAN)", authors: "Antonaccio, C. M., Desrosiers, A.", conference: "Society for Implementation Research Collaboration (SIRC)", location: "Denver, CO", date: "Sept 2024" },
+                { title: "Cybersecurity and Women’s Activism in Southeast Asia: A Six-Country Study [Poster]", authors: "Antonaccio, C. M., Stuart, J.", conference: "Asian Association for Social Psychology", location: "Hong Kong SAR", date: "July 2023" },
+                { title: "Hacking the SDGs: Where we’ve been, where we are, and where we’re going", authors: "Antonaccio, C. M.", conference: "United Nations University Open Innovation Camp", location: "Macao SAR", date: "May 2023" },
+                { title: "The Intergenerational Impact of War: Understanding and Promoting Mental Health in Children and Families Affected by War", authors: "Betancourt, T. S., Antonaccio, C. M.", conference: "Children, Migration, and Mental Health Conference", location: "The New School, New York, NY", date: "March 2022" },
+                { title: "Testing the Feasibility and Acceptability of a Collaborative Team Approach for Integrating Evidence-Based Group Mental Health Interventions into a Youth Entrepreneurship Programs (EPP) in a Fragile Setting [Poster]", authors: "Antonaccio, C. M., Freeman, J. A., Borg, R., Betancourt, T. S.", conference: "Academy Health Annual Research Meeting", location: "Cambridge, MA", date: "June 2021" },
+                { title: "Evidence and recommendations to the IASC reference group on standard means of verification for key domains of mental health and psychosocial support (MHPSS) in humanitarian emergencies.", authors: "Augustinavicius, J., Murray, S., Antonaccio, C. M., Tol, W.", conference: "Inter-Agency Standing Committee (IASC) Reference Group on MHPSS", location: "Geneva, Switzerland", date: "Sept 2018" }
+            ],
+            lectures: [
+                { title: "We’re all in the gutter, some of us are looking at the stars: Mental health and childhood cancer survivorship", event: "National Cancer Survivors Day @ Hasbro Children’s Hospital", location: "Providence, RI", date: "June 2024" },
+                { title: "Data, Digital Technologies, and Human-centered Design for Evidence-Based Decision-making", event: "United Nations World Data Forum", location: "Macau SAR", date: "April 2023", coauthors: "Rutirasiri, C., Pun, P." },
+                { title: "What will it take to achieve the UN sustainable development goals?", event: "University of Macau", location: "Macau SAR", date: "Nov 2022", coauthors: "Gatzweiler, F. W., Stuart, J., Suriyawonkul, A." },
+                { title: "Mixed methods and using MaxQDA in applied global mental health research", event: "Boston College School of Social Work", location: "Chestnut Hill, MA", date: "Feb 2022 & Feb 2021" }
+            ],
+            teaching: [
+                {
+                    role: "Part-time Faculty (Interdisciplinary)",
+                    institution: "Boston College, Chestnut Hill, MA",
+                    duration: "2024 – Present",
+                    courses: [
+                        "<strong>Graduate (MSW):</strong> Practicing Design for Social Change, Strategic Planning for Public and Nonprofit Organizations",
+                        "<strong>Undergraduate:</strong> Ethical Design for Social Impact, Introduction to Design Thinking"
+                    ]
+                },
+                {
+                    role: "Teaching Assistant",
+                    institution: "Boston College, Chestnut Hill, MA",
+                    duration: "2018 – 22",
+                    courses: [
+                        "<strong>Graduate (MSW):</strong> Program Evaluation, Social Innovation"
+                    ]
+                },
+                {
+                    role: "Teaching Assistant",
+                    institution: "Pennsylvania State University, University Park, PA",
+                    duration: "2015-2016",
+                    courses: [
+                        "<strong>Undergraduate (Demography):</strong> World Population Diversity"
+                    ]
+                }
+            ],
+            skills: [
+                {
+                    category: "Implementation Science",
+                    details: [
+                        "<strong>Frameworks:</strong> CFIR, EPIS, RE-AIM, PRISM, BELIEF (novel framework)",
+                        "<strong>Methods:</strong> Hybrid Designs (Type 1, 2, 3), Process Evaluation, Implementation Outcome Assessment, Adaptation Methodologies, Strategy Development (incl. mHealth supervision tools), Contextual Analysis (Inner/Outer), Stakeholder Engagement (Community/Leadership)"
+                    ]
+                },
+                {
+                    category: "Research Methodologies",
+                    details: [
+                        "<strong>Design:</strong> Mixed Methods, Longitudinal Studies, RCTs, Quasi-Experimental Designs",
+                        "<strong>Qualitative:</strong> In-depth Interviews, Focus Group Discussions, Thematic Analysis, Content Analysis, Case Study Research",
+                        "<strong>Quantitative:</strong> Survey Design & Validation, Epidemiology (Maternal/Child, Spatial), Advanced Biostatistics (Multilevel Modeling, Structural Equation Modeling, Latent Class Analysis, Bayesian Methods)",
+                        "<strong>Other:</strong> Human-Centered Design (HCD), User Experience (UX) Research, Participatory Action Research, Systematic Reviews, Participatory Modeling"
+                    ]
+                },
+                 {
+                    category: "Technical Proficiencies",
+                    details: [
+                        "<strong>Statistical Software:</strong> R, Stata, Mplus",
+                        "<strong>Qualitative Software:</strong> MaxQDA",
+                        "<strong>GIS Software:</strong> R, ArcGIS, Mapbox, GeoJSON",
+                        "<strong>Data Management:</strong> Qualtrics, RedCap, KoboCollect",
+                        "<strong>Web Development:</strong> HTML, CSS, JavaScript",
+                        "<strong>General:</strong> Microsoft Office Suite, Tana"
+                    ]
+                },
+                {
+                    category: "Professional Skills",
+                    details: [
+                        "Grant Writing & Management", "Scientific Manuscript Preparation", "Cross-Cultural Collaboration & Communication", "Research Ethics (including IRB experience in complex settings)", "Mentorship", "Public Speaking"
+                    ]
+                }
+            ],
+            languages: [
+                { lang: "English", level: "Native" },
+                { lang: "Krio", level: "Working" },
+                { lang: "German", level: "Working" },
+                { lang: "Kiswahili", level: "Basic" }
+            ],
+            service: [
+                "Member: United Nations University (UNU-CS) Internal Review Board",
+                "Peer Reviewer (Ad-hoc): BMC Public Health, Global Mental Health, Journal of Traumatic Stress, Social Science & Medicine – Health Systems"
+            ],
+            awards: [
+                { name: "NIMH K99/R00 Pathway to Independence Award", status: "Submitted Feb '25", details: "“Co-Design and Micro-randomized Trial of a WhatsApp-based JITAI to Promote Adolescent Mental Health in Sierra Leone” National Institute of Mental Health" },
+                { name: "Catalyst Fellowship", amount: "$5,000", institution: "Boston College Center for Social Innovation" },
+                { name: "Carolyn A. Thomas Fellowship Award", amount: "$5,000", institution: "Boston College School of Social Work" },
+                { name: "Dellinger Fund Scholarship", amount: "$50,000", institution: "Johns Hopkins Department of Population, Family, and Reproductive Health" },
+                { name: "Population, Family, & Reproductive Health Scholarship", amount: "$25,000", institution: "Johns Hopkins Department of Population, Family, and Reproductive Health" },
+                { name: "Maternal and Child Health Training Grant", amount: "$15,000", institution: "Johns Hopkins Department of Population, Family, and Reproductive Health" },
+                { name: "Global Health Field Placement Grant", amount: "$3,500", institution: "Johns Hopkins Center for Global Health" },
+                { name: "Childhood Cancer Survivor Scholarships", details: "National Children’s Cancer Society Beyond the Cure Ambassador ($4,000), Pediatric Brain Tumor Foundation ($2,000), Cancer for College ($2,000)" }
+            ]
+        };
+
+        // --- UI & PAGE MANAGEMENT ---
+        function showPage(pageId) {
+            document.querySelectorAll('main > div').forEach(div => div.classList.add('hidden'));
+            const page = document.getElementById(pageId);
+            if (page) {
+                page.classList.remove('hidden');
+                window.scrollTo(0, 0);
+                renderPageContent(pageId);
+            }
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('onclick') === `showPage('${pageId}')`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        function setupAccordion(containerSelector) {
+            const container = document.querySelector(containerSelector);
+            if (!container) return;
+            container.addEventListener('click', function(event) {
+                const header = event.target.closest('.accordion-header');
+                if (!header) return;
+                const item = header.parentElement;
+                item.classList.toggle('open');
+            });
+        }
+
+        // --- INITIALIZATION & RENDERING ---
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('about');
+        });
+        
+        function renderPageContent(pageId) {
+            const container = document.getElementById(pageId);
+            if (!container) return;
+            container.innerHTML = ''; // Clear previous content
+
+            switch(pageId) {
+                case 'about': renderAboutPage(); break;
+                case 'experience': renderExperiencePage(); break;
+                case 'research': renderResearchPage(); break;
+                case 'teaching': renderTeachingPage(); break;
+                case 'training-skills': renderTrainingSkillsPage(); break;
+                case 'service': renderServicePage(); break;
+            }
+        }
+        
+        function renderAboutPage() {
+            const { name, email, phone, website, summary } = cvData.personal;
+            const container = document.getElementById('about');
+            container.innerHTML = `
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <div class="grid md:grid-cols-3 gap-8 items-center">
+                        <div class="md:col-span-2">
+                            <h1 class="text-4xl font-bold text-brown-dark">${name}</h1>
+                            <p class="text-lg leading-relaxed text-gray-700 mt-6">${summary}</p>
+                        </div>
+                        <div class="md:border-l md:pl-8">
+                             <h2 class="text-2xl font-bold text-red-cardinal mb-4">Contact</h2>
+                             <ul class="space-y-3 text-gray-600">
+                                <li class="flex items-center">
+                                    <svg class="h-5 w-5 mr-3 text-brown-dark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" /></svg>
+                                    <span>${email}</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <svg class="h-5 w-5 mr-3 text-brown-dark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.518.76a11.034 11.034 0 006.364 6.364l.76-1.518a1 1 0 011.06-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C6.477 18 2 13.523 2 8V3z" /></svg>
+                                    <span>${phone}</span>
+                                </li>
+                                <li class="flex items-center">
+                                     <svg class="h-5 w-5 mr-3 text-brown-dark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0l-1.5-1.5a2 2 0 112.828-2.828l1.5 1.5l3-3a2 2 0 010-2.828z" clip-rule="evenodd" /><path fill-rule="evenodd" d="M7.414 15.414a2 2 0 11-2.828-2.828l3-3a2 2 0 012.828 0l1.5 1.5a2 2 0 11-2.828 2.828l-1.5-1.5-3 3a2 2 0 010 2.828z" clip-rule="evenodd" /></svg>
+                                    <a href="http://${website}" target="_blank" class="text-red-cardinal hover:underline">${website}</a>
+                                </li>
+                             </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function createAccordionItem(title, content, isOpen = false) {
+            return `
+                <div class="accordion-item bg-white rounded-lg shadow-lg mb-4 ${isOpen ? 'open' : ''}">
+                    <div class="accordion-header p-4 flex justify-between items-center">
+                        <h3 class="text-xl font-bold text-brown-dark">${title}</h3>
+                        <svg class="accordion-caret h-6 w-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
+                    </div>
+                    <div class="accordion-content border-t border-gray-200">
+                        ${content}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderExperiencePage() {
+            const container = document.getElementById('experience');
+            
+            const experienceHTML = cvData.experience.map(job => `
+                <div class="mb-6 pb-6 border-b border-gray-100 last:border-b-0">
+                    <h4 class="text-lg font-bold text-brown-dark">${job.title}</h4>
+                    <p class="text-md font-semibold text-gray-700">${job.organization} | ${job.location}</p>
+                    <p class="text-sm text-red-cardinal mb-2">${job.duration}</p>
+                    <p class="text-gray-600 leading-relaxed">${job.description}</p>
+                </div>
+            `).join('');
+
+            const consultanciesHTML = cvData.consultancies.map(con => `
+                <li class="mb-3">
+                    <strong class="text-brown-dark">${con.organization}:</strong>
+                    <span class="text-gray-600">${con.description}</span>
+                </li>
+            `).join('');
+
+            container.innerHTML = `
+                <h2 class="text-3xl font-bold text-red-cardinal pb-2 mb-6">Experience</h2>
+                ${createAccordionItem("Professional Appointments & Research", experienceHTML, true)}
+                ${createAccordionItem("Research Consultancies & Assistantships", `<ul class="list-disc list-outside pl-5">${consultanciesHTML}</ul>`)}
+            `;
+            setupAccordion('#experience');
+        }
+        
+        function updateResearchFilters(type, value) {
+            researchFilters[type] = value;
+            renderResearchPage();
+        }
+
+        function renderResearchPage() {
+            const container = document.getElementById('research');
+
+            const allPubs = [...cvData.publications.peerReviewed, ...cvData.publications.reportsAndBriefs, ...cvData.publications.underReview, ...cvData.publications.inPreparation];
+            const allTopics = [...new Set(allPubs.flatMap(p => p.topics || []))].sort();
+            
+            let filteredPubs = allPubs;
+            if (researchFilters.type !== 'all') {
+                filteredPubs = filteredPubs.filter(p => p.type === researchFilters.type);
+            }
+            if (researchFilters.topic !== 'all') {
+                filteredPubs = filteredPubs.filter(p => p.topics && p.topics.includes(researchFilters.topic));
+            }
+
+            const groupedByYear = filteredPubs.reduce((acc, pub) => {
+                const year = pub.year || (pub.journal ? "In Press" : "In Preparation");
+                if (!acc[year]) acc[year] = [];
+                acc[year].push(pub);
+                return acc;
+            }, {});
+
+            const sortedYears = Object.keys(groupedByYear).sort((a, b) => {
+                if (!isNaN(a) && !isNaN(b)) return b - a;
+                if (!isNaN(a)) return -1;
+                if (!isNaN(b)) return 1;
+                return a > b ? -1 : 1;
+            });
+            
+            let publicationsHTML = sortedYears.map(year => {
+                const pubsOfYear = groupedByYear[year].map(p => {
+                    const linkHTML = p.link
+                        ? `<a href="${p.link}" target="_blank" class="text-sm text-red-cardinal hover:underline ml-2">[View Report]</a>`
+                        : '';
+                    return `
+                        <div class="publication-item">
+                            <p class="authors">${p.authors}${p.year ? ` (${p.year})` : ''}.</p>
+                            <p class="title">${p.title}</p>
+                            <p class="journal">${p.journal || p.target}${linkHTML}</p>
+                        </div>
+                    `;
+                }).join('');
+                return createAccordionItem(year, `<div class="space-y-4">${pubsOfYear}</div>`, true);
+            }).join('');
+            
+            if (sortedYears.length === 0) {
+                publicationsHTML = `<div class="bg-white p-6 rounded-lg shadow-lg text-center text-gray-500">No publications match the selected filters.</div>`;
+            }
+
+            const presentationsHTML = cvData.presentations.map(p => `<li class="mb-4"><p class="font-semibold text-brown-dark">${p.title}</p><p class="text-sm text-gray-600">${p.authors}</p><p class="text-sm text-gray-500 italic">${p.conference}, ${p.location} (${p.date})</p></li>`).join('');
+            const lecturesHTML = cvData.lectures.map(l => `<li class="mb-4"><p class="font-semibold text-brown-dark">${l.title}</p><p class="text-sm text-gray-600">${l.event}, ${l.location} (${l.date})</p>${l.coauthors ? `<p class="text-xs text-gray-500">with ${l.coauthors}</p>` : ''}</li>`).join('');
+
+            container.innerHTML = `
+                <h2 class="text-3xl font-bold text-red-cardinal pb-2 mb-6">Research Program & Output</h2>
+                <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
+                     <h3 class="text-xl font-bold text-brown-dark mb-3">Overview</h3>
+                     <p class="text-gray-700 leading-relaxed">${cvData.personal.researchProgram}</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-brown-dark mb-3">Filter by Publication Type</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <button class="filter-btn px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700 font-semibold ${researchFilters.type === 'all' ? 'active' : ''}" onclick="updateResearchFilters('type', 'all')">All</button>
+                            <button class="filter-btn px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700 font-semibold ${researchFilters.type === 'peerReviewed' ? 'active' : ''}" onclick="updateResearchFilters('type', 'peerReviewed')">Peer-Reviewed</button>
+                            <button class="filter-btn px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700 font-semibold ${researchFilters.type === 'report' ? 'active' : ''}" onclick="updateResearchFilters('type', 'report')">Reports</button>
+                            <button class="filter-btn px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700 font-semibold ${researchFilters.type === 'underReview' ? 'active' : ''}" onclick="updateResearchFilters('type', 'underReview')">Under Review</button>
+                            <button class="filter-btn px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700 font-semibold ${researchFilters.type === 'inPreparation' ? 'active' : ''}" onclick="updateResearchFilters('type', 'inPreparation')">In Preparation</button>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-brown-dark mb-3">Filter by Research Topic</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <button class="filter-btn px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700 font-semibold ${researchFilters.topic === 'all' ? 'active' : ''}" onclick="updateResearchFilters('topic', 'all')">All Topics</button>
+                            ${allTopics.map(topic => `<button class="filter-btn px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700 font-semibold ${researchFilters.topic === topic ? 'active' : ''}" onclick="updateResearchFilters('topic', '${topic}')">${topic}</button>`).join('')}
+                        </div>
+                    </div>
+                </div>
+                <div id="publication-list">
+                    ${publicationsHTML}
+                </div>
+                ${createAccordionItem("Conference Presentations", `<ul class="list-disc list-outside pl-5">${presentationsHTML}</ul>`, true)}
+                ${createAccordionItem("Invited Lectures & Workshops", `<ul class="list-disc list-outside pl-5">${lecturesHTML}</ul>`, true)}
+            `;
+            setupAccordion('#research');
+        }
+
+        function renderTrainingSkillsPage() {
+            const container = document.getElementById('training-skills');
+            
+            const educationHTML = cvData.education.map(edu => `<div class="mb-6 pb-6 border-b border-gray-100 last:border-b-0"><h4 class="text-lg font-bold text-brown-dark">${edu.degree}</h4><p class="text-md font-semibold text-gray-700 mb-2">${edu.institution}</p><ul class="list-disc list-outside pl-5 text-gray-600 text-sm">${edu.details.map(d => `<li>${d}</li>`).join('')}</ul></div>`).join('');
+            const trainingHTML = cvData.specializedTraining.map(train => `<div class="mb-6 pb-6 border-b border-gray-100 last:border-b-0"><h4 class="text-lg font-bold text-brown-dark">${train.area}</h4><p class="text-md font-semibold text-gray-700 mb-2">${train.institutions}</p><ul class="list-disc list-outside pl-5 text-gray-600 text-sm">${train.details.map(d => `<li>${d}</li>`).join('')}</ul></div>`).join('');
+            const skillsHTML = cvData.skills.map(skill => createAccordionItem(skill.category, `<ul class="list-disc list-outside pl-5 text-gray-600 text-sm">${skill.details.map(d => `<li>${d}</li>`).join('')}</ul>`)).join('');
+            const languagesHTML = cvData.languages.map(lang => `<span class="inline-block bg-gold-light text-brown-dark text-sm font-semibold mr-2 mb-2 px-3 py-1 rounded-full">${lang.lang} (${lang.level})</span>`).join('');
+
+            container.innerHTML = `
+                <h2 class="text-3xl font-bold text-red-cardinal pb-2 mb-6">Training & Skills</h2>
+                ${createAccordionItem("Formal Education", educationHTML, true)}
+                ${createAccordionItem("Specialized Training", trainingHTML)}
+                <div id="skills-accordion-container">
+                    <div class="bg-white p-6 rounded-lg shadow-lg mb-4">
+                        <h3 class="text-xl font-bold text-brown-dark">Skills & Competencies</h3>
+                        <div class="mt-4">${skillsHTML}</div>
+                    </div>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-bold text-brown-dark">Languages</h3>
+                    <div class="mt-4">${languagesHTML}</div>
+                </div>
+            `;
+            setupAccordion('#training-skills');
+        }
+
+        function renderTeachingPage() {
+            const container = document.getElementById('teaching');
+            const teachingHTML = cvData.teaching.map(t => `<div class="mb-6 pb-6 border-b border-gray-100 last:border-b-0"><h4 class="text-lg font-bold text-brown-dark">${t.role}</h4><p class="text-md font-semibold text-gray-700 mb-2">${t.institution} | ${t.duration}</p><ul class="list-disc list-outside pl-5 text-gray-600 text-sm">${t.courses.map(c => `<li>${c}</li>`).join('')}</ul></div>`).join('');
+
+            container.innerHTML = `
+                <h2 class="text-3xl font-bold text-red-cardinal pb-2 mb-6">Teaching</h2>
+                ${createAccordionItem("Teaching Experience", teachingHTML, true)}
+            `;
+            setupAccordion('#teaching');
+        }
+
+        function renderServicePage() {
+            const container = document.getElementById('service');
+            const serviceHTML = cvData.service.map(s => `<li class="text-gray-700 mb-2">${s}</li>`).join('');
+            const awardsHTML = cvData.awards.map(a => `<li class="mb-4"><p class="font-semibold text-brown-dark">${a.name} ${a.amount ? `(${a.amount})` : ''}</p><p class="text-sm text-gray-600">${a.institution || a.status}</p>${a.details ? `<p class="text-xs text-gray-500">${a.details}</p>` : ''}</li>`).join('');
+
+            container.innerHTML = `
+                <h2 class="text-3xl font-bold text-red-cardinal pb-2 mb-6">Service & Recognition</h2>
+                ${createAccordionItem("Grants, Scholarships, & Awards", `<ul class="list-disc list-outside pl-5">${awardsHTML}</ul>`, true)}
+                ${createAccordionItem("Professional Service", `<ul class="list-disc list-outside pl-5">${serviceHTML}</ul>`)}
+            `;
+            setupAccordion('#service');
+        }
+    </script>
+</body>
+</html>
