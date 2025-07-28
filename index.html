@@ -11,8 +11,14 @@
             font-size: 95%; /* Scales down the entire application */
         }
         body { 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
             font-family: 'Inter', sans-serif; 
             scroll-behavior: smooth; 
+        }
+        main {
+            flex-grow: 1;
         }
         :root {
             --brown-dark: #4E3629; --brown-light: #7A5C4F; --red-cardinal: #C00404;
@@ -22,9 +28,22 @@
         .text-brown-dark { color: var(--brown-dark); } .text-red-cardinal { color: var(--red-cardinal); }
         .border-red-cardinal { border-color: var(--red-cardinal); } .hover-text-gold-light:hover { color: var(--gold-light); }
         
-        .nav-link { transition: all 0.3s ease; cursor: pointer; padding: 0.5rem 0; border-bottom: 2px solid transparent; }
+        .nav-link { 
+            transition: all 0.3s ease; 
+            cursor: pointer; 
+            padding: 0.5rem 0; 
+            border-bottom: 2px solid transparent; 
+            display: flex;
+            align-items: center;
+        }
         .nav-link.active { border-bottom-color: var(--gold-light); color: var(--gold-light); }
         
+        .nav-icon {
+            width: 1.2rem; /* Adjusted for consistency */
+            height: 1.2rem; /* Adjusted for consistency */
+            margin-right: 0.375rem; /* 6px */
+        }
+
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .hidden { display: none; }
@@ -80,12 +99,40 @@
                 <a class="text-2xl font-bold text-white hover-text-gold-light" href="#" onclick="showPage('about')">Cara M. Antonaccio</a>
             </div>
             <ul id="nav-links" class="flex items-center space-x-2 sm:space-x-6">
-                <li><a class="nav-link text-white hover-text-gold-light font-medium" onclick="showPage('about')">About</a></li>
-                <li><a class="nav-link text-white hover-text-gold-light font-medium" onclick="showPage('experience')">Experience</a></li>
-                <li><a class="nav-link text-white hover-text-gold-light font-medium" onclick="showPage('research')">Research</a></li>
-                <li><a class="nav-link text-white hover-text-gold-light font-medium" onclick="showPage('teaching')">Teaching</a></li>
-                <li><a class="nav-link text-white hover-text-gold-light font-medium" onclick="showPage('training-skills')">Training & Skills</a></li>
-                <li><a class="nav-link text-white hover-text-gold-light font-medium" onclick="showPage('service')">Service & Awards</a></li>
+                <li><a class="nav-link text-white hover-text-gold-light font-medium" onclick="showPage('about')">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    <span>About</span>
+                </a></li>
+                <li><a class="nav-link text-white hover-text-gold-light font-medium" onclick="showPage('experience')">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 297 297" fill="currentColor">
+                        <path d="M147.655,71.797c-17.947,0-32.548,14.601-32.548,32.548c0,17.947,14.601,32.548,32.548,32.548 c17.947,0,32.548-14.601,32.548-32.548C180.203,86.398,165.603,71.797,147.655,71.797z M147.655,121.576 c-9.501,0-17.231-7.73-17.231-17.231c0-9.501,7.73-17.231,17.231-17.231c9.501,0,17.231,7.73,17.231,17.231 C164.886,113.846,157.156,121.576,147.655,121.576z"></path>
+                        <path d="M245.437,183.301c-9.288-14.255-20.467-20.807-26.304-23.446c3.134-20.065,4.186-40.095,1.127-57.195 C209.149,40.542,155.333,3.222,153.048,1.663c-3.253-2.217-7.533-2.217-10.786,0c-2.285,1.558-56.101,38.879-67.211,100.996 c-3.096,17.312-1.979,37.627,1.246,57.941c-6.122,3.043-16.221,9.637-24.734,22.7c-16,24.555-18.687,59.459-7.985,103.742 c0.74,3.065,2.943,5.569,5.888,6.695c1.107,0.423,2.264,0.63,3.416,0.63c1.916,0,3.815-0.575,5.436-1.692l46.663-32.181 c1.24,3.104,2.056,5.039,2.273,5.549c1.502,3.534,4.971,5.828,8.81,5.828h22.018v15.556c0,5.287,4.286,9.573,9.573,9.573 s9.573-4.286,9.573-9.573v-15.556h22.018c3.839,0,7.308-2.294,8.81-5.828c0.237-0.558,1.193-2.828,2.637-6.464l47.989,33.096 c1.621,1.117,3.521,1.692,5.436,1.692c1.152,0,2.31-0.208,3.416-0.63c2.945-1.126,5.147-3.629,5.888-6.695 C264.123,242.76,261.437,207.856,245.437,183.301z M147.655,21.617c6.194,5.032,16.822,14.516,27.123,27.684h-54.246 C130.835,36.13,141.464,26.647,147.655,21.617z M59.265,268.765c-10.448-57.725,9.367-80.269,20.823-88.232 c5.157,23.501,12.272,45.624,17.937,61.501L59.265,268.765z M172.791,252.725h-15.563V176.86c0-5.287-4.286-9.573-9.573-9.573 c-5.287,0-9.573,4.286-9.573,9.573v75.865h-15.567c-8.574-21.734-37.118-99.175-28.618-146.695 c2.785-15.569,8.839-29.477,16.051-41.413h75.413c7.212,11.936,13.267,25.844,16.051,41.413 C209.901,153.495,181.364,230.978,172.791,252.725z M237.736,268.765l-40.116-27.666c5.688-16.028,12.744-38.143,17.816-61.546 C226.546,186.558,248.648,208.471,237.736,268.765z"></path>
+                    </svg>
+                    <span>Experience</span>
+                </a></li>
+                <li><a class="nav-link text-white hover-text-gold-light font-medium" onclick="showPage('research')">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 16V11M12 16V8M16 16V13M4 16.8L4 7.2C4 6.0799 4 5.51984 4.21799 5.09202C4.40973 4.7157 4.71569 4.40973 5.09202 4.21799C5.51984 4 6.0799 4 7.2 4H16.8C17.9201 4 18.4802 4 18.908 4.21799C19.2843 4.40973 19.5903 4.7157 19.782 5.09202C20 5.51984 20 6.0799 20 7.2V16.8C20 17.9201 20 18.4802 19.782 18.908C19.5903 19.2843 19.2843 19.5903 18.908 19.782C18.4802 20 17.9201 20 16.8 20H7.2C6.0799 20 5.51984 20 5.09202 19.782C4.71569 19.5903 4.40973 19.2843 4.21799 18.908C4 18.4802 4 17.9201 4 16.8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                    <span>Research</span>
+                </a></li>
+                <li><a class="nav-link text-white hover-text-gold-light font-medium" onclick="showPage('teaching')">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.99088 16.5L9.01504 16.9741C7.0341 17.5217 6.04363 17.7955 5.50972 17.2192C4.97582 16.6429 5.25206 15.5982 5.80455 13.5087L5.94749 12.9682C6.10449 12.3744 6.18299 12.0775 6.14352 11.7831C6.10404 11.4887 5.95106 11.2301 5.6451 10.713L5.36655 10.2421C4.28985 8.4221 3.75151 7.51211 4.11106 6.78804C4.4706 6.06397 5.48992 6.00535 7.52857 5.88812L8.05599 5.85779C8.63531 5.82448 8.92497 5.80782 9.17756 5.67305C9.43014 5.53828 9.61705 5.30066 9.99088 4.82542L10.3312 4.39274C11.6467 2.72034 12.3045 1.88413 13.0606 2.01293C13.8167 2.14173 14.1705 3.15023 14.8779 5.16723L15.0609 5.68905C15.262 6.26222 15.3625 6.5488 15.5581 6.75991C15.7537 6.97102 16.0222 7.08275 16.5592 7.30622L17.048 7.50967C18.9378 8.29605 19.8826 8.68925 19.9904 9.49292C20.0823 10.1786 19.513 10.7756 18.3493 11.7831" stroke="currentColor" stroke-width="2"></path> <path d="M15.2516 10.689C14.265 9.50847 13.7716 8.91821 13.2045 9.00913C12.6375 9.10004 12.3722 9.81193 11.8416 11.2357L11.7043 11.604C11.5535 12.0086 11.4781 12.2109 11.3314 12.3599C11.1848 12.509 10.9834 12.5878 10.5806 12.7456L10.214 12.8892C8.79667 13.4443 8.08803 13.7218 8.00721 14.2891C7.92639 14.8564 8.52692 15.3378 9.72797 16.3004L10.0387 16.5495C10.38 16.8231 10.5507 16.9599 10.6494 17.1471C10.7482 17.3343 10.7639 17.5508 10.7954 17.9837L10.824 18.3779C10.9347 19.9015 10.9901 20.6633 11.5072 20.923C12.0244 21.1827 12.6608 20.7683 13.9337 19.9395L14.263 19.7251C14.6247 19.4896 14.8056 19.3718 15.0133 19.3385C15.2211 19.3052 15.4322 19.3601 15.8543 19.47L16.2387 19.57C17.7244 19.9565 18.4673 20.1498 18.8677 19.743C19.2681 19.3362 19.061 18.5987 18.6466 17.1238L18.5394 16.7422C18.4216 16.3231 18.3628 16.1135 18.3924 15.9057C18.422 15.6979 18.5367 15.5154 18.7662 15.1503L18.9751 14.818C19.7826 13.5332 20.1864 12.8909 19.9167 12.3798C19.647 11.8687 18.8826 11.8273 17.3536 11.7446L16.958 11.7231C16.5235 11.6996 16.3063 11.6879 16.1168 11.5927C15.9274 11.4976 15.7872 11.3299 15.5068 10.9944L15.2516 10.689Z" stroke="currentColor" stroke-width="2"></path>
+                    </svg>
+                    <span>Teaching</span>
+                </a></li>
+                <li><a class="nav-link text-white hover-text-gold-light font-medium" onclick="showPage('training-skills')">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                    <span>Training & Skills</span>
+                </a></li>
+                <li><a class="nav-link text-white hover-text-gold-light font-medium" onclick="showPage('service')">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 8C7.33333 8.66667 3.6 10.7 2 13.5M11.5 11C9.16667 12.3333 4 16.4 2 22M12.5 14.5C11.3333 15.6667 8.7 18.6 7.5 21"></path>
+                        <path d="M14.6742 6.45067L15.3467 3.16466L17.572 5.67421L20.5992 5.38071L18.8314 8.44258L20.5738 11.0815L17.2878 10.4091L14.7783 12.6344L14.9677 9.47785L11.9059 7.71009L14.6742 6.45067Z"></path>
+                    </svg>
+                    <span>Service & Awards</span>
+                </a></li>
             </ul>
         </nav>
     </header>
@@ -249,18 +296,18 @@
                 ]
             },
             presentations: [
-                { title: "Strategic Synergy for Aid Worker Security: Examining the Diffusion Dynamics of Violence Against Aid Workers Using a Multidimensional Density-Based Spatiotemporal Clustering Algorithm (MDST-DBSCAN)", authors: "Antonaccio, C. M., Desrosiers, A.", conference: "Society for Implementation Research Collaboration (SIRC)", location: "Denver, CO", date: "Sept 2024" },
-                { title: "Cybersecurity and Women’s Activism in Southeast Asia: A Six-Country Study [Poster]", authors: "Antonaccio, C. M., Stuart, J.", conference: "Asian Association for Social Psychology", location: "Hong Kong SAR", date: "July 2023" },
-                { title: "Hacking the SDGs: Where we’ve been, where we are, and where we’re going", authors: "Antonaccio, C. M.", conference: "United Nations University Open Innovation Camp", location: "Macao SAR", date: "May 2023" },
-                { title: "The Intergenerational Impact of War: Understanding and Promoting Mental Health in Children and Families Affected by War", authors: "Betancourt, T. S., Antonaccio, C. M.", conference: "Children, Migration, and Mental Health Conference", location: "The New School, New York, NY", date: "March 2022" },
-                { title: "Testing the Feasibility and Acceptability of a Collaborative Team Approach for Integrating Evidence-Based Group Mental Health Interventions into a Youth Entrepreneurship Programs (EPP) in a Fragile Setting [Poster]", authors: "Antonaccio, C. M., Freeman, J. A., Borg, R., Betancourt, T. S.", conference: "Academy Health Annual Research Meeting", location: "Cambridge, MA", date: "June 2021" },
-                { title: "Evidence and recommendations to the IASC reference group on standard means of verification for key domains of mental health and psychosocial support (MHPSS) in humanitarian emergencies.", authors: "Augustinavicius, J., Murray, S., Antonaccio, C. M., Tol, W.", conference: "Inter-Agency Standing Committee (IASC) Reference Group on MHPSS", location: "Geneva, Switzerland", date: "Sept 2018" }
+                { title: "Strategic Synergy for Aid Worker Security: Examining the Diffusion Dynamics of Violence Against Aid Workers Using a Multidimensional Density-Based Spatiotemporal Clustering Algorithm (MDST-DBSCAN)", authors: "Antonaccio, C. M., Desrosiers, A.", conference: "Society for Implementation Research Collaboration (SIRC)", location: "Denver, CO", date: "Sept 2024", topics: ["Implementation Science", "Human Security", "Quantitative Methods"] },
+                { title: "Cybersecurity and Women’s Activism in Southeast Asia: A Six-Country Study [Poster]", authors: "Antonaccio, C. M., Stuart, J.", conference: "Asian Association for Social Psychology", location: "Hong Kong SAR", date: "July 2023", topics: ["Human Security"] },
+                { title: "Hacking the SDGs: Where we’ve been, where we are, and where we’re going", authors: "Antonaccio, C. M.", conference: "United Nations University Open Innovation Camp", location: "Macao SAR", date: "May 2023", topics: ["Global Health"] },
+                { title: "The Intergenerational Impact of War: Understanding and Promoting Mental Health in Children and Families Affected by War", authors: "Betancourt, T. S., Antonaccio, C. M.", conference: "Children, Migration, and Mental Health Conference", location: "The New School, New York, NY", date: "March 2022", topics: ["Conflict & Health", "Global Mental Health", "Child & Adolescent Health"] },
+                { title: "Testing the Feasibility and Acceptability of a Collaborative Team Approach for Integrating Evidence-Based Group Mental Health Interventions into a Youth Entrepreneurship Programs (EPP) in a Fragile Setting [Poster]", authors: "Antonaccio, C. M., Freeman, J. A., Borg, R., Betancourt, T. S.", conference: "Academy Health Annual Research Meeting", location: "Cambridge, MA", date: "June 2021", topics: ["Implementation Science", "Global Mental Health", "Child & Adolescent Health"] },
+                { title: "Evidence and recommendations to the IASC reference group on standard means of verification for key domains of mental health and psychosocial support (MHPSS) in humanitarian emergencies.", authors: "Augustinavicius, J., Murray, S., Antonaccio, C. M., Tol, W.", conference: "Inter-Agency Standing Committee (IASC) Reference Group on MHPSS", location: "Geneva, Switzerland", date: "Sept 2018", topics: ["Global Mental Health", "Human Security", "Implementation Science"] }
             ],
             lectures: [
-                { title: "We’re all in the gutter, some of us are looking at the stars: Mental health and childhood cancer survivorship", event: "National Cancer Survivors Day @ Hasbro Children’s Hospital", location: "Providence, RI", date: "June 2024" },
-                { title: "Data, Digital Technologies, and Human-centered Design for Evidence-Based Decision-making", event: "United Nations World Data Forum", location: "Macau SAR", date: "April 2023", coauthors: "Rutirasiri, C., Pun, P." },
-                { title: "What will it take to achieve the UN sustainable development goals?", event: "University of Macau", location: "Macau SAR", date: "Nov 2022", coauthors: "Gatzweiler, F. W., Stuart, J., Suriyawonkul, A." },
-                { title: "Mixed methods and using MaxQDA in applied global mental health research", event: "Boston College School of Social Work", location: "Chestnut Hill, MA", date: "Feb 2022 & Feb 2021" }
+                { title: "We’re all in the gutter, some of us are looking at the stars: Mental health and childhood cancer survivorship", event: "National Cancer Survivors Day @ Hasbro Children’s Hospital", location: "Providence, RI", date: "June 2024", topics: ["Global Mental Health", "Cancer Survivorship", "Child & Adolescent Health"] },
+                { title: "Data, Digital Technologies, and Human-centered Design for Evidence-Based Decision-making", event: "United Nations World Data Forum", location: "Macau SAR", date: "April 2023", coauthors: "Rutirasiri, C., Pun, P.", topics: ["Human-Centered Design", "mHealth"] },
+                { title: "What will it take to achieve the UN sustainable development goals?", event: "University of Macau", location: "Macau SAR", date: "Nov 2022", coauthors: "Gatzweiler, F. W., Stuart, J., Suriyawonkul, A.", topics: ["Global Health"] },
+                { title: "Mixed methods and using MaxQDA in applied global mental health research", event: "Boston College School of Social Work", location: "Chestnut Hill, MA", date: "Feb 2022 & Feb 2021", topics: ["Global Mental Health", "Quantitative Methods"] }
             ],
             teaching: [
                 {
@@ -407,18 +454,18 @@
                         <div class="md:border-l md:pl-8">
                              <h2 class="text-2xl font-bold text-red-cardinal mb-4">Contact</h2>
                              <ul class="space-y-3 text-gray-600">
-                                <li class="flex items-center">
-                                    <svg class="h-5 w-5 mr-3 text-brown-dark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" /></svg>
-                                    <span>${email}</span>
-                                </li>
-                                <li class="flex items-center">
-                                    <svg class="h-5 w-5 mr-3 text-brown-dark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.518.76a11.034 11.034 0 006.364 6.364l.76-1.518a1 1 0 011.06-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C6.477 18 2 13.523 2 8V3z" /></svg>
-                                    <span>${phone}</span>
-                                </li>
-                                <li class="flex items-center">
-                                     <svg class="h-5 w-5 mr-3 text-brown-dark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0l-1.5-1.5a2 2 0 112.828-2.828l1.5 1.5l3-3a2 2 0 010-2.828z" clip-rule="evenodd" /><path fill-rule="evenodd" d="M7.414 15.414a2 2 0 11-2.828-2.828l3-3a2 2 0 012.828 0l1.5 1.5a2 2 0 11-2.828 2.828l-1.5-1.5-3 3a2 2 0 010 2.828z" clip-rule="evenodd" /></svg>
-                                    <a href="http://${website}" target="_blank" class="text-red-cardinal hover:underline">${website}</a>
-                                </li>
+                                 <li class="flex items-center">
+                                     <svg class="h-5 w-5 mr-3 text-brown-dark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" /></svg>
+                                     <span>${email}</span>
+                                 </li>
+                                 <li class="flex items-center">
+                                    <svg class="h-5 w-5 mr-3 text-brown-dark" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M16.5562 12.9062L16.1007 13.359C16.1007 13.359 15.0181 14.4355 12.0631 11.4972C9.10812 8.55901 10.1907 7.48257 10.1907 7.48257L10.4775 7.19738C11.1841 6.49484 11.2507 5.36691 10.6342 4.54348L9.37326 2.85908C8.61028 1.83992 7.13596 1.70529 6.26145 2.57483L4.69185 4.13552C4.25823 4.56668 3.96765 5.12559 4.00289 5.74561C4.09304 7.33182 4.81071 10.7447 8.81536 14.7266C13.0621 18.9492 17.0468 19.117 18.6763 18.9651C19.1917 18.9171 19.6399 18.6546 20.0011 18.2954L21.4217 16.883C22.3806 15.9295 22.1102 14.2949 20.8833 13.628L18.9728 12.5894C18.1672 12.1515 17.1858 12.2801 16.5562 12.9062Z"></path></svg>
+                                     <span>${phone}</span>
+                                 </li>
+                                 <li class="flex items-center">
+                                    <svg class="h-5 w-5 mr-3 text-brown-dark" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M19,4 C20.1046,4 21,4.89543 21,6 L21,18 C21,19.1046 20.1046,20 19,20 L5,20 C3.89543,20 3,19.1046 3,18 L3,6 C3,4.89543 3.89543,4 5,4 L19,4 Z M19,10 L5,10 L5,17 C5,17.51285 5.38604429,17.9355092 5.88337975,17.9932725 L6,18 L18,18 C18.51285,18 18.9355092,17.613973 18.9932725,17.1166239 L19,17 L19,10 Z M6,6 C5.44772,6 5,6.44772 5,7 C5,7.55228 5.44772,8 6,8 C6.55228,8 7,7.55228 7,7 C7,6.44772 6.55228,6 6,6 Z M9,6 C8.44772,6 8,6.44772 8,7 C8,7.55228 8.44772,8 9,8 C9.55228,8 10,7.55228 10,7 C10,6.44772 9.55228,6 9,6 Z M12,6 C11.4477,6 11,6.44772 11,7 C11,7.55228 11.4477,8 12,8 C12.5523,8 13,7.55228 13,7 C13,6.44772 12.5523,6 12,6 Z"></path></svg>
+                                     <a href="http://${website}" target="_blank" class="text-red-cardinal hover:underline">${website}</a>
+                                 </li>
                              </ul>
                         </div>
                     </div>
@@ -426,7 +473,7 @@
             `;
         }
 
-        function createAccordionItem(title, content, isOpen = false) {
+        function createAccordionItem(title, content, isOpen = true) {
             return `
                 <div class="accordion-item bg-white rounded-lg shadow-lg mb-4 ${isOpen ? 'open' : ''}">
                     <div class="accordion-header p-4 flex justify-between items-center">
@@ -475,9 +522,12 @@
         function renderResearchPage() {
             const container = document.getElementById('research');
 
+            // Combine all research items to generate a comprehensive list of topics
             const allPubs = [...cvData.publications.peerReviewed, ...cvData.publications.reportsAndBriefs, ...cvData.publications.underReview, ...cvData.publications.inPreparation];
-            const allTopics = [...new Set(allPubs.flatMap(p => p.topics || []))].sort();
+            const allResearchItems = [...allPubs, ...cvData.presentations, ...cvData.lectures];
+            const allTopics = [...new Set(allResearchItems.flatMap(p => p.topics || []))].sort();
             
+            // --- Filter Publications ---
             let filteredPubs = allPubs;
             if (researchFilters.type !== 'all') {
                 filteredPubs = filteredPubs.filter(p => p.type === researchFilters.type);
@@ -513,15 +563,31 @@
                         </div>
                     `;
                 }).join('');
-                return createAccordionItem(year, `<div class="space-y-4">${pubsOfYear}</div>`, true);
+                return createAccordionItem(year, `<div class="space-y-6">${pubsOfYear}</div>`, true);
             }).join('');
             
             if (sortedYears.length === 0) {
                 publicationsHTML = `<div class="bg-white p-6 rounded-lg shadow-lg text-center text-gray-500">No publications match the selected filters.</div>`;
             }
 
-            const presentationsHTML = cvData.presentations.map(p => `<li class="mb-4"><p class="font-semibold text-brown-dark">${p.title}</p><p class="text-sm text-gray-600">${p.authors}</p><p class="text-sm text-gray-500 italic">${p.conference}, ${p.location} (${p.date})</p></li>`).join('');
-            const lecturesHTML = cvData.lectures.map(l => `<li class="mb-4"><p class="font-semibold text-brown-dark">${l.title}</p><p class="text-sm text-gray-600">${l.event}, ${l.location} (${l.date})</p>${l.coauthors ? `<p class="text-xs text-gray-500">with ${l.coauthors}</p>` : ''}</li>`).join('');
+            // --- Filter Presentations ---
+            let filteredPresentations = cvData.presentations;
+            if (researchFilters.topic !== 'all') {
+                filteredPresentations = filteredPresentations.filter(p => p.topics && p.topics.includes(researchFilters.topic));
+            }
+            const presentationsHTML = filteredPresentations.length > 0
+                ? `<div class="space-y-6">${filteredPresentations.map(p => `<div><p class="font-semibold text-brown-dark">${p.title}</p><p class="text-sm text-gray-600">${p.authors}</p><p class="text-sm text-gray-500 italic">${p.conference}, ${p.location} (${p.date})</p></div>`).join('')}</div>`
+                : `<p class="text-gray-500 p-4">No presentations match the selected topic.</p>`;
+
+            // --- Filter Lectures ---
+            let filteredLectures = cvData.lectures;
+            if (researchFilters.topic !== 'all') {
+                filteredLectures = filteredLectures.filter(l => l.topics && l.topics.includes(researchFilters.topic));
+            }
+            const lecturesHTML = filteredLectures.length > 0
+                ? `<div class="space-y-6">${filteredLectures.map(l => `<div><p class="font-semibold text-brown-dark">${l.title}</p><p class="text-sm text-gray-600">${l.event}, ${l.location} (${l.date})</p>${l.coauthors ? `<p class="text-xs text-gray-500">with ${l.coauthors}</p>` : ''}</div>`).join('')}</div>`
+                : `<p class="text-gray-500 p-4">No lectures match the selected topic.</p>`;
+
 
             container.innerHTML = `
                 <h2 class="text-3xl font-bold text-red-cardinal pb-2 mb-6">Research Program & Output</h2>
@@ -551,8 +617,8 @@
                 <div id="publication-list">
                     ${publicationsHTML}
                 </div>
-                ${createAccordionItem("Conference Presentations", `<ul class="list-disc list-outside pl-5">${presentationsHTML}</ul>`, true)}
-                ${createAccordionItem("Invited Lectures & Workshops", `<ul class="list-disc list-outside pl-5">${lecturesHTML}</ul>`, true)}
+                ${createAccordionItem("Conference Presentations", presentationsHTML, true)}
+                ${createAccordionItem("Invited Lectures & Workshops", lecturesHTML, true)}
             `;
             setupAccordion('#research');
         }
