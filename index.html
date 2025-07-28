@@ -503,7 +503,7 @@
             let publicationsHTML = sortedYears.map(year => {
                 const pubsOfYear = groupedByYear[year].map(p => {
                     const linkHTML = p.link
-                        ? `<a href="${p.link}" target="_blank" class="text-sm text-red-cardinal hover:underline ml-2">[View Report]</a>`
+                        ? `<a href="${p.link}" target="_blank" class="text-sm text-red-cardinal hover:underline ml-2">[Read Report]</a>`
                         : '';
                     return `
                         <div class="publication-item">
